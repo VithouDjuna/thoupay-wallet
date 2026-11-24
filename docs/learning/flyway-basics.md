@@ -63,14 +63,14 @@ They go in this folder (Flyway looks there by default):
 
 ```
 backend/src/main/resources/db/migration/
-├── V1__create_customer_table.sql
+├── V1__init_schmea.sql
 ├── V2__add_email_to_customer.sql
 └── V3__create_order_table.sql
 ```
 
 Inside, it's just SQL:
 
-**`V1__create_customer_table.sql`**
+**`V1__init_schmea.sql`**
 ```sql
 CREATE TABLE customer (
     id   BIGSERIAL PRIMARY KEY,

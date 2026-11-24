@@ -2,7 +2,7 @@
 
 From: Tech Lead / PO / SRE (Claude)
 Last updated: 2026-11-24
-Status: **WAL-0.1 design accepted with conditions. Next: implementation and the PR.**
+Status: **WAL-0.1 PR #1: code review round 4 → request changes.**
 
 ## How this file works
 - This file always shows the **current state** of our discussion. After each conversation I rewrite it.
@@ -10,22 +10,29 @@ Status: **WAL-0.1 design accepted with conditions. Next: implementation and the 
 
 ---
 
-## 💬 WAL-0.1: you asked to skip further design rounds (2026-11-24)
+## 💬 Code review of PR #1, round 4 (2026-11-24)
 
-**Agreed, for WAL-0.1 only.** It's scaffolding, and a mistake costs one PR round. From WAL-1 (money, ledger, transactions),
-the design must be approved before coding.
+Full review: `docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.1-backend-skeleton/review.md`.
 
-- ✅ **Groovy DSL accepted.** Your "Java team" argument is a good team-level reason. D2, the tech stack and the ticket are updated.
-- ❌ **Concurrent Flyway answer is wrong.** The history table doesn't make it safe. Flyway's **PostgreSQL advisory lock** does. Explain it in the PR.
-- The full PR checklist is in `docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.1-backend-skeleton/review.md` (round 2).
-  The current spike code fails 3 blockers: V1 creates a business table, the module packages are empty, and T4 asserts seed data.
+**You didn't push.** PR #1 still points at `dece471`. I reviewed your local working tree instead.
+
+**Good progress:** 6 of the 10 round-3 items are fixed (V2–V4 gone, clean V1, module packages, old test deleted, `clean-disabled`, rename).
+
+**But the main blocker is still there.** I ran `./gradlew test` on your machine. The log says
+`Database: jdbc:postgresql://localhost:5432/postgres`. No container started. Two reasons:
+1. `PostgresTestConfiguration` is never imported. Component scan skips `@TestConfiguration` classes.
+2. `spring.profiles.active: local` in the main `application.yml` points every environment at your dev DB.
+
+Your "T5" error is the evidence: `ConnectException` means "port 5432 refused", not "Docker is down".
+
+**A senior habit to build now:** after each fix, say *how you verified it*. "I added the config class" is a change.
+"The log shows a Testcontainers container on a random port" is proof.
 
 ---
 
 ## Still open on your side
-- Commit `PROJECT.md` and the docs changes with the PR.
-- Before the first drill, set `JAVA_HOME` to JDK 21.
+- Set `JAVA_HOME` to JDK 21 before the first drill.
 
 ## Next step
-Fix the checklist items on `feature/WAL-0.1-backend-skeleton`, run `./gradlew build`, open the PR (target Thu 2026-11-26),
-and tell me the PR number or say "ready". Then I do the code review.
+Fix the blockers, then: `docker stop thoupaydb` → `./gradlew build` must be **green**. Stop Docker Desktop → must be **red** with a clear message.
+Push to PR #1, update the PR body, say "ready". Target: Thu 2026-11-26.

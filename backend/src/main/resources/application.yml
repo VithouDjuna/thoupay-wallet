@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active:
+      - local
   application:
     name: thoupay-wallet
   mvc:
@@ -11,10 +14,8 @@ spring:
     validate-migration-naming: true
     locations:
       - db/migration
-  datasource:
-    username: admin
-    password: admin
-    url: jdbc:postgresql://localhost:5432/postgres
+    clean-disabled: true
+    default-schema: public
 management:
   endpoints:
     web:

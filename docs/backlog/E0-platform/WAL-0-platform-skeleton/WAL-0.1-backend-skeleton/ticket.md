@@ -35,7 +35,7 @@ Every later ticket builds on this skeleton. If the foundations are wrong, every 
 ### Flyway requirements
 | # | Requirement | Why |
 |---|---|---|
-| F1 | Migrations live in `src/main/resources/db/migration` and use the name format `V<version>__<description>.sql` (two underscores), e.g. `V1__create_customer_table.sql`. | This is Flyway's default location and naming. Anything else needs extra config, and every reader has to learn it. |
+| F1 | Migrations live in `src/main/resources/db/migration` and use the name format `V<version>__<description>.sql` (two underscores), e.g. `V1__init_schma.sql`. | This is Flyway's default location and naming. Anything else needs extra config, and every reader has to learn it. |
 | F2 | There is at least one versioned migration, `V1`. It creates the schema layout you choose in the design, and **no business tables**. | Tables belong to WAL-1 and later tickets. V1 only proves the pipeline works. |
 | F3 | Hibernate never changes the schema. Set `spring.jpa.hibernate.ddl-auto` to `validate` (or `none`, if you can justify it). | Flyway is the only thing allowed to change the schema. |
 | F4 | `flyway clean` (which drops everything) must not be possible outside tests. Set it explicitly in config, even where the default is already safe. | One wrong property in prod wipes every wallet. Being explicit documents the intent. |

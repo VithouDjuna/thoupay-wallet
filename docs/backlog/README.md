@@ -5,8 +5,7 @@ One folder per epic, one sub-folder per ticket. Each ticket folder holds:
 | File | Written by | Content |
 |---|---|---|
 | `ticket.md` | PO (Claude) | User story, acceptance criteria, edge cases, NFRs, DoD |
-| `design.md` | Developer | Short design, written **before** any code |
-| `review.md` | Tech lead (Claude) | Design review first, then the code review: `[severity] file:line: issue → why → hint` |
+| `review.md` | Tech lead (Claude) | Code review as a short checklist: Must fix / Should fix / Also missing / Nits, one line each |
 | `frontend.md` | Frontend (Claude) | Frontend integration for this ticket: what changed, why, API issues found |
 
 **Big stories are split into sub-tickets.** The story folder keeps only `ticket.md` (goal, sub-ticket table,
@@ -18,12 +17,13 @@ E0-platform/
     ├── ticket.md                    ← story overview + sub-ticket status table
     ├── WAL-0.1-backend-skeleton/
     │   ├── ticket.md
-    │   ├── design.md
     │   └── review.md
     └── WAL-0.2-ci-pipeline/ ...
 ```
 
-One sub-ticket = one design = one branch (`feature/WAL-0.1-backend-skeleton`) = one PR.
+One sub-ticket = one branch (`feature/WAL-0.1-backend-skeleton`) = one PR.
+
+There is no separate design step (D30). Each ticket ends with "Edge cases" questions; answer them in a **Decisions** section of the PR description.
 
 A frontend change that doesn't belong to a ticket goes in `frontend-changes/FE-<n>-<slug>.md`.
 Cross-cutting docs stay outside the backlog: `docs/decisions/` (ADRs), `docs/runbooks/`, `docs/postmortems/`.

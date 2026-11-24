@@ -26,11 +26,11 @@ whether the app is alive and whether it is ready.
 ## Acceptance criteria
 1. The DB password exists only in Vault and in the ignored `.env` that bootstraps it. `git grep -i -E "password|secret"`
    over `backend/` finds no real values.
-2. With Vault stopped, the app's startup behaviour (fail fast or retry) matches your design, and the log says why.
-3. `/actuator/health/liveness` and `/actuator/health/readiness` return the groups from your design.
+2. With Vault stopped, the app's startup behaviour (fail fast or retry) matches what you wrote under "Decisions", and the log says why.
+3. `/actuator/health/liveness` and `/actuator/health/readiness` return the groups you chose under "Decisions".
 4. An integration test covers reading the secret from Vault. Testcontainers has a Vault module.
 
-## Edge cases (answer them in the design)
+## Edge cases (answer them in the PR description, under "Decisions")
 - **Bootstrap:** some secrets must exist before Vault can serve any, such as the Postgres superuser password and the Vault token.
   Where do they live locally, and how would that be different in production?
 - **Dev mode:** Vault in dev mode loses its data when it restarts. Is that acceptable for this project?

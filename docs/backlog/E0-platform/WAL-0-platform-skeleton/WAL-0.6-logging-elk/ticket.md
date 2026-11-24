@@ -23,7 +23,7 @@ Application logs are JSON, carry trace IDs, and can be searched in Kibana.
 3. Logs never contain the raw `Authorization` header or a full JWT. A test or a manual check proves it.
 4. Elasticsearch, Kibana and the shipper together use less than 2.5 GB of memory.
 
-## Edge cases (answer them in the design)
+## Edge cases (answer them in the PR description, under "Decisions")
 - How do logs get from the app to Elasticsearch (a file plus a shipper, a TCP appender, or container stdout)? If
   Elasticsearch is down, what happens to the app? Can logging block a request thread?
 - Should the API return the `traceId` to the client, for example in a header, so users can quote it to support?

@@ -18,6 +18,13 @@ repositories {
     mavenCentral()
 }
 
+tasks.named('test') {
+    maxHeapSize = '512m'
+}
+tasks.named('bootRun') {
+    jvmArgs = ['-Xmx512m']
+}
+
 dependencies {
     // Spring Boot - Core
     implementation 'org.springframework.boot:spring-boot-starter'
