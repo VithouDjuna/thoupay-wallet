@@ -7,7 +7,7 @@
 |---|---|---|
 | D1 | Name | **ThouPay Wallet** (`thoupay-wallet`), GitHub `VithouDjuna/thoupay-wallet` |
 | D1a | Location | `C:\Users\thenc\thoupay-wallet`, a standalone git repo isolated from other projects |
-| D2 | Build tool | Gradle (Kotlin DSL) |
+| D2 | Build tool | Gradle, **Groovy DSL** (changed from Kotlin DSL 2026-11-24 after the developer pushed back: a Java team reads Groovy without learning Kotlin syntax) |
 | D3 | Layout | Monorepo: `backend/` (developer), `frontend/` (Claude), `infra/`, `docs/{product,architecture,backlog,decisions,runbooks,postmortems}` + `docs/roadmap.md` |
 | D4 | Branching | Trunk-based (`main`), `feature/WAL-<n>-<slug>` (sub-tickets: `feature/WAL-<n>.<m>-<slug>`), squash-merge, Conventional Commits |
 | D5 | Language | English for tickets, reviews and docs |

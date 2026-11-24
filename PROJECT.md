@@ -22,23 +22,28 @@ Backend and infra: developer. Frontend: Claude.
 > Claude reads this at the start of every session. Chat history does not carry over between sessions,
 > so this file and `discussion.md` are the only memory that does.
 
-**Last updated:** 2026-11-24 (Sprint 0 session 2)
+**Last updated:** 2026-11-24 (Sprint 0 session 3)
 
 ### Current sprint and ticket
 - **Sprint 0** discussion is closed. All decisions are in `docs/decisions/sprint-0-decisions.md`.
 - **Current ticket:** WAL-0, Platform skeleton (`docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`), given 2026-11-24.
   - Split into 7 sub-tickets (WAL-0.1 … WAL-0.7), each with its own design, review and PR. Story target: Sun 2026-12-06.
-  - **Now:** WAL-0.1 Backend skeleton. Design due Wed 2026-11-25 in `docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.1-backend-skeleton/design.md`.
-  - Status: waiting for the WAL-0.1 design. No code before the design review. Sub-ticket status table: `docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`.
+  - **Now:** WAL-0.1 Backend skeleton: implementation, then the PR (target Thu 2026-11-26). Review: `WAL-0.1-backend-skeleton/review.md`.
+  - Spike code (Groovy build, empty module packages, ModularityTest, practice migrations V1–V4 customer) is **staged on**
+    **`feature/WAL-0.1-backend-skeleton`** (not committed). Asked the developer to unstage it or move it to a spike branch.
+  - Learning notes written for the developer (who is new to Flyway and Testcontainers): `docs/learning/`. They learn best from
+    friendly, analogy-based, step-by-step explanations with hands-on exercises.
+  - Status: design **accepted with conditions** (round 2, 2026-11-24). The developer asked to move the remaining design gaps into the code review. Allowed for WAL-0.1 only. Next: implement and open the PR, against the checklist in `review.md`. Sub-ticket status table: `docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`.
 - **Next:** WAL-1 (wallet creation + balance), then WAL-2 (ledger). Milestone 1 = Phases 0–2 by 2026-12-31.
 
 ### Open questions
 - None.
 
 ### Housekeeping still open (developer's actions)
-- First push not done: the GitHub remote is empty. Rename `master` → `main` before the first push (decision D4).
-- The old parent repo `C:\Users\thenc\Project` still has `origin` pointing at `thoupay-wallet.git`. Never push from there.
-- `C:\Users\thenc\Project\project-stepup` still exists. The developer deletes it (Claude won't).
+- ✅ Done 2026-11-24: `master` renamed to `main` and pushed. GitHub default branch is `main`. The stray remote `master`
+  (easy-common shop code pushed from the old repo on 2026-11-23) was deleted. The old folder `C:\Users\thenc\Project`
+  (including `project-stepup`) was deleted by the developer, so the wrong-remote risk is gone.
+- `PROJECT.md` has uncommitted team-memory updates. Commit them with the WAL-0.1 design on the feature branch.
 - Set `JAVA_HOME` to JDK 21 so `jcmd` / `jstack` work, before the first incident drill.
 
 ### Developer profile and weak areas
@@ -49,12 +54,16 @@ Backend and infra: developer. Frontend: Claude.
   required inputs to ticket designs (see "Deferred" in `docs/decisions/sprint-0-decisions.md`).
 - Took the tech lead's recommendation on currency (USD only) without debate. That's fine here, but watch for
   a pattern of accepting defaults without reasoning.
+- First design (WAL-0.1, 2026-11-24) was an implementation log, not a design: no decisions, edge cases and risks answered with
+  "no comment". The design was written after the code. Round 2: made a good team argument for Groovy (pushback accepted), but answered concurrent Flyway wrongly and asked to skip
+  design review to save time. Watch for skipping the design under time pressure; from WAL-1 it is not allowed.
 
 ### Known risks
 - WSL2 has no `.wslconfig`, so it gets about 8 GB. The full stack may get OOM-killed (WAL-0 caps it at 6 GB).
 
 ### Open review comments
-- None yet.
+- WAL-0.1 design round 2 (2026-11-24): accepted with conditions. Groovy DSL accepted (D2 changed). Carried into the PR: the concurrent-Flyway
+  answer is wrong (advisory lock, not the history table), SQL boundary rule for one schema, T2/heap/local-run, risks, plus the spike PR checklist in `review.md`.
 
 ### Completed incidents
 - None yet.

@@ -23,7 +23,7 @@ Every later ticket builds on this skeleton. If the foundations are wrong, every 
   real PostgreSQL. H2 or mocks would let wrong code pass.
 
 ## Scope
-- `backend/`: **Gradle Kotlin DSL** (`build.gradle.kts`, `settings.gradle.kts`), Java 21 toolchain, Spring Boot 4 (latest 4.x),
+- `backend/`: **Gradle Groovy DSL** (`build.gradle`, `settings.gradle`; changed from Kotlin DSL, see D2), Java 21 toolchain, Spring Boot 4 (latest 4.x),
   Gradle wrapper committed.
 - A modular monolith with the modules `identity`, `wallet`, `ledger`, `transfer`, `risk`, `admin` and `notification`.
   The modules are empty, but a test or the build **enforces** their boundaries. Folder names alone don't count.
@@ -143,7 +143,7 @@ You haven't used these tools before, so read this before the design. It's backgr
 2. **Write `design.md`** (due Wed). Answer every edge case above. Write down what the spike taught you.
 3. **Design review with me.** No feature-branch code before this.
 4. After the review, on `feature/WAL-0.1-backend-skeleton`:
-   1. Convert the build to Kotlin DSL and check that it still builds.
+   1. ~~Convert the build to Kotlin DSL~~ Not needed: Groovy DSL accepted (D2).
    2. Create the module packages and the boundary test, then break a boundary on purpose (AC 2).
    3. Add Flyway with `V1`, then the shared Testcontainers setup, then the DB assertion (T4).
    4. Add the `problem+json` 404, springdoc and Actuator.
