@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    active:
-      - local
   application:
     name: thoupay-wallet
   mvc:
@@ -15,7 +12,11 @@ spring:
     locations:
       - db/migration
     clean-disabled: true
-    default-schema: public
+    enabled: true
+  datasource:
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    url: ${PG_URL}
 management:
   endpoints:
     web:
