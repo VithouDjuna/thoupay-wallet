@@ -1,0 +1,30 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Build
+build/
+.gradle/
+out/
+target/
+
+# Frontend
+node_modules/
+dist/
+.vite/
+
+# Env / secrets (secrets live in Vault, never in git)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Heap dumps / profiler output (incident drills)
+*.hprof
+*.jfr
