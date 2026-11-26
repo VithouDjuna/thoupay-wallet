@@ -13,10 +13,7 @@ spring:
       - db/migration
     clean-disabled: true
     enabled: true
-  datasource:
-    username: ${PG_USER}
-    password: ${PG_PASSWORD}
-    url: ${PG_URL}
+    default-schema: flyway
 management:
   endpoints:
     web:
