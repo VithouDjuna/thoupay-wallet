@@ -27,6 +27,6 @@ class ApplicationIntegrationTest {
 
         // 2. The database's view: Flyway's history table records successful runs
         Integer result = jdbcTemplate.queryForObject("select count(*) from flyway_schema_history where version = '1' and success is true", Integer.class);
-        assertThat(1).isEqualTo(result);
+        assertThat(result).isEqualTo(1);
     }
 }
