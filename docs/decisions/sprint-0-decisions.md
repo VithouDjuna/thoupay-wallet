@@ -7,7 +7,7 @@
 |---|---|---|
 | D1 | Name | **ThouPay Wallet** (`thoupay-wallet`), GitHub `VithouDjuna/thoupay-wallet` |
 | D1a | Location | `C:\Users\thenc\thoupay-wallet`, a standalone git repo isolated from other projects |
-| D2 | Build tool | Gradle (Kotlin DSL) |
+| D2 | Build tool | Gradle, **Groovy DSL** (changed from Kotlin DSL 2026-11-24 after the developer pushed back: a Java team reads Groovy without learning Kotlin syntax) |
 | D3 | Layout | Monorepo: `backend/` (developer), `frontend/` (Claude), `infra/`, `docs/{product,architecture,backlog,decisions,runbooks,postmortems}` + `docs/roadmap.md` |
 | D4 | Branching | Trunk-based (`main`), `feature/WAL-<n>-<slug>` (sub-tickets: `feature/WAL-<n>.<m>-<slug>`), squash-merge, Conventional Commits |
 | D5 | Language | English for tickets, reviews and docs |
@@ -16,11 +16,11 @@
 | # | Topic | Decision |
 |---|---|---|
 | D6 | Definition of Done | Option A: a minimal platform (Postgres, Keycloak, Vault, ELK, Prometheus, Grafana) in Sprint 0 (WAL-0); full DoD from ticket 1 |
-| D7 | Backend reviews | `review.md` in the ticket folder (design review, then code review), format `[severity] file:line: issue → why → hint` |
+| D7 | Backend reviews | `review.md` in the ticket folder: a short checklist grouped by severity (Must fix / Should fix / Also missing / Nits), one line per finding `file:line: problem → fix` (2026-11-24) |
 | D8 | Frontend changes | A branch per change + `frontend.md` in the ticket folder, or `docs/backlog/frontend-changes/FE-<n>-<slug>.md` if not tied to a ticket (what, why, what to learn). The developer merges |
 | D9 | Feedback style | Direct. Claude says so when work looks junior |
 | D10 | Discussion log | `discussion.md` is rewritten after each conversation to show the current state |
-| D10a | Backlog layout | `docs/backlog/E<n>-<epic>/WAL-<n>-<slug>/` with `ticket.md`, `design.md`, `review.md`, `frontend.md`. A big story is split into sub-ticket folders `WAL-<n>.<m>-<slug>/` with the same files, and one PR each. Index in `docs/backlog/README.md` (2026-11-24) |
+| D10a | Backlog layout | `docs/backlog/E<n>-<epic>/WAL-<n>-<slug>/` with `ticket.md`, `review.md`, `frontend.md` (no `design.md` since D30). A big story is split into sub-ticket folders `WAL-<n>.<m>-<slug>/` with the same files, and one PR each. Index in `docs/backlog/README.md` (2026-11-24) |
 
 ### Time
 | # | Topic | Decision |
@@ -60,8 +60,9 @@
 | D27 | Auth timing | Keycloak + basic roles in Phase 0/1; fine-grained roles, Vault rotation, rate limits in Phase 3 |
 | D28 | Early drills | JVM/DB-level on Docker Compose; pod-level drills after Phase 5 |
 | D29 | Currency | **USD only (Q2 = A, 2026-11-24).** A `currency` column (ISO 4217, always `USD`) is stored wherever money is stored |
+| D30 | Workflow | **No separate design step (2026-11-24, developer's call).** Ticket → implement → PR with a "Decisions" section answering the ticket's edge cases → code review. A wrong decision costs a PR round instead of a design round |
 
-### Deferred (required inputs to later designs; "I don't know yet" won't pass review)
+### Deferred (required inputs to later PR "Decisions" sections; "I don't know yet" won't pass review)
 | Topic | Comes back in |
 |---|---|
 | Balance model (derived vs. stored) and locking | WAL-2 design (ledger), becomes ADR-001 |

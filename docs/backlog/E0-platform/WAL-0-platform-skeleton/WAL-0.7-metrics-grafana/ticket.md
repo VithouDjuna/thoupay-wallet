@@ -20,10 +20,10 @@ The app's JVM, HTTP and database pool metrics are visible on a Grafana dashboard
 
 ## Acceptance criteria
 1. Grafana shows heap usage, GC pauses, the HTTP request rate, p95 latency, and Hikari active and pending connections for the running app.
-2. Should `/actuator/prometheus` be reachable without a token? Your design answers this and explains why, and the tests prove the behaviour.
+2. Should `/actuator/prometheus` be reachable without a token? The PR "Decisions" section answers this and explains why, and the tests prove the behaviour.
 3. The full stack (all profiles) uses less than 6 GB of memory (`docker stats`).
 
-## Edge cases (answer them in the design)
+## Edge cases (answer them in the PR description, under "Decisions")
 - Prometheus runs in a container, and the app may run on the host. How does Prometheus reach the app?
 - High-cardinality labels: what happens to Prometheus if a URI tag contains wallet IDs (for example `/wallets/123`)?
 

@@ -5,7 +5,7 @@
 ## Technology requirements (fixed, company-style)
 | Area | Requirement |
 |---|---|
-| Language / framework | Java 21, Spring Boot 4 (latest 4.x), Gradle Kotlin DSL |
+| Language / framework | Java 21, Spring Boot 4 (latest 4.x), Gradle Groovy DSL (D2) |
 | Database | PostgreSQL 18 (exact image tag pinned; tests, compose and k8s use the same tag), Flyway migrations |
 | Cache / locks / rate limit | Redis |
 | Messaging | Kafka (transaction events, notifications), outbox pattern |

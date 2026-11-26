@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: thoupay-wallet
+  mvc:
+    problemdetails:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    validate-migration-naming: true
+    locations:
+      - db/migration
+    clean-disabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info

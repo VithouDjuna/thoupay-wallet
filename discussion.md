@@ -1,44 +1,38 @@
-# Sprint 0 Discussion: ThouPay Wallet
+# Discussion: ThouPay Wallet
 
 From: Tech Lead / PO / SRE (Claude)
 Last updated: 2026-11-24
-Status: **closed ✅.** Every decision is in `docs/decisions/sprint-0-decisions.md`. No open questions.
+Status: **WAL-0.1 PR #1: code review round 4 → request changes.**
 
 ## How this file works
 - This file always shows the **current state** of our discussion. After each conversation I rewrite it.
-- When a new topic needs discussion (a design debate, a change request), it opens here again.
+- Sprint 0 decisions are closed and live in `docs/decisions/sprint-0-decisions.md`.
 
 ---
 
-## 💬 My response to your last question (2026-11-24): "why Flyway, why Testcontainers in WAL-0.1?"
+## 💬 Code review of PR #1, round 4 (2026-11-24)
 
-**Answered, and the ticket is expanded.** `WAL-0.1-backend-skeleton/ticket.md` now has:
-- "Why this ticket exists": the reasons for the module boundaries, Flyway and Testcontainers.
-- Concrete requirements **F1–F6** (Flyway) and **T1–T6** (Testcontainers), and new ACs 6–7.
-- New design edge cases: schema layout, two pods running Flyway at once, migrations at startup vs a Job, Docker not running.
-- A primer, the week-1 pitfalls, official doc links and a suggested order of work (spike → design → review → build).
-- Estimate raised from 4 h to 6 h for learning time.
+Full review: `docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.1-backend-skeleton/review.md`.
 
-**Fixed on my side:** `docs/architecture/tech-stack.md` said Spring Boot 3, but the ticket says Boot 4. It now says
-Boot 4 + Gradle Kotlin DSL, and pins **PostgreSQL 18**.
+**You didn't push.** PR #1 still points at `dece471`. I reviewed your local working tree instead.
 
-**Tech lead notes on the code already in `backend/`:**
-1. It's a spike until the design is reviewed. Put what you learned into `design.md`.
-2. `build.gradle` is Groovy, but the ticket requires the Kotlin DSL. Convert it, or push back in the design with a reason.
+**Good progress:** 6 of the 10 round-3 items are fixed (V2–V4 gone, clean V1, module packages, old test deleted, `clean-disabled`, rename).
 
----
+**But the main blocker is still there.** I ran `./gradlew test` on your machine. The log says
+`Database: jdbc:postgresql://localhost:5432/postgres`. No container started. Two reasons:
+1. `PostgresTestConfiguration` is never imported. Component scan skips `@TestConfiguration` classes.
+2. `spring.profiles.active: local` in the main `application.yml` points every environment at your dev DB.
 
-## Still open on your side (housekeeping, none of it blocks the design)
-1. **First push:** the GitHub remote is still empty. Before you push, rename the branch, since D4 says trunk = `main`:
-   `git branch -m master main` and then `git push -u origin main`.
-2. **Old parent repo:** `C:\Users\thenc\Project` still has `origin` = `thoupay-wallet.git`. Fix it:
-   `git -C C:\Users\thenc\Project remote set-url origin https://github.com/VithouDjuna/easy-common.git`
-3. **Old folder:** `C:\Users\thenc\Project\project-stepup` still exists. Delete it when you're ready. I won't.
-4. **Before the first drill:** set `JAVA_HOME` to JDK 21.
+Your "T5" error is the evidence: `ConnectException` means "port 5432 refused", not "Docker is down".
+
+**A senior habit to build now:** after each fix, say *how you verified it*. "I added the config class" is a change.
+"The log shows a Testcontainers container on a random port" is proof.
 
 ---
+
+## Still open on your side
+- Set `JAVA_HOME` to JDK 21 before the first drill.
 
 ## Next step
-**WAL-0: Platform skeleton** is in `docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`.
-It's split into 7 sub-tickets (see the table in `docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`). Start with **WAL-0.1**: write
-`docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.1-backend-skeleton/design.md` by **Wed 2026-11-25**. No code before I've reviewed it.
+Fix the blockers, then: `docker stop thoupaydb` → `./gradlew build` must be **green**. Stop Docker Desktop → must be **red** with a clear message.
+Push to PR #1, update the PR body, say "ready". Target: Thu 2026-11-26.

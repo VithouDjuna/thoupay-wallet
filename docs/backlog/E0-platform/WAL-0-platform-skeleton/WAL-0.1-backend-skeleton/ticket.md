@@ -23,7 +23,7 @@ Every later ticket builds on this skeleton. If the foundations are wrong, every 
   real PostgreSQL. H2 or mocks would let wrong code pass.
 
 ## Scope
-- `backend/`: **Gradle Kotlin DSL** (`build.gradle.kts`, `settings.gradle.kts`), Java 21 toolchain, Spring Boot 4 (latest 4.x),
+- `backend/`: **Gradle Groovy DSL** (`build.gradle`, `settings.gradle`; changed from Kotlin DSL, see D2), Java 21 toolchain, Spring Boot 4 (latest 4.x),
   Gradle wrapper committed.
 - A modular monolith with the modules `identity`, `wallet`, `ledger`, `transfer`, `risk`, `admin` and `notification`.
   The modules are empty, but a test or the build **enforces** their boundaries. Folder names alone don't count.
@@ -35,7 +35,7 @@ Every later ticket builds on this skeleton. If the foundations are wrong, every 
 ### Flyway requirements
 | # | Requirement | Why |
 |---|---|---|
-| F1 | Migrations live in `src/main/resources/db/migration` and use the name format `V<version>__<description>.sql` (two underscores), e.g. `V1__create_customer_table.sql`. | This is Flyway's default location and naming. Anything else needs extra config, and every reader has to learn it. |
+| F1 | Migrations live in `src/main/resources/db/migration` and use the name format `V<version>__<description>.sql` (two underscores), e.g. `V1__init_schma.sql`. | This is Flyway's default location and naming. Anything else needs extra config, and every reader has to learn it. |
 | F2 | There is at least one versioned migration, `V1`. It creates the schema layout you choose in the design, and **no business tables**. | Tables belong to WAL-1 and later tickets. V1 only proves the pipeline works. |
 | F3 | Hibernate never changes the schema. Set `spring.jpa.hibernate.ddl-auto` to `validate` (or `none`, if you can justify it). | Flyway is the only thing allowed to change the schema. |
 | F4 | `flyway clean` (which drops everything) must not be possible outside tests. Set it explicitly in config, even where the default is already safe. | One wrong property in prod wipes every wallet. Being explicit documents the intent. |
@@ -143,7 +143,7 @@ You haven't used these tools before, so read this before the design. It's backgr
 2. **Write `design.md`** (due Wed). Answer every edge case above. Write down what the spike taught you.
 3. **Design review with me.** No feature-branch code before this.
 4. After the review, on `feature/WAL-0.1-backend-skeleton`:
-   1. Convert the build to Kotlin DSL and check that it still builds.
+   1. ~~Convert the build to Kotlin DSL~~ Not needed: Groovy DSL accepted (D2).
    2. Create the module packages and the boundary test, then break a boundary on purpose (AC 2).
    3. Add Flyway with `V1`, then the shared Testcontainers setup, then the DB assertion (T4).
    4. Add the `problem+json` 404, springdoc and Actuator.

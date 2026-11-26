@@ -23,7 +23,7 @@ Every PR and every push to `main` is built and tested automatically, so no later
 2. A PR that changes only `frontend/` or `docs/` doesn't run the backend job.
 3. A second run with no dependency changes is clearly faster than the first, which shows the cache works. Write down both times.
 
-## Edge cases (answer them in the design)
+## Edge cases (answer them in the PR description, under "Decisions")
 - Testcontainers needs Docker. Does the GitHub runner have it, and which runner do you pick?
 - What happens with a PR from a fork, and why will that matter for secrets later?
 
