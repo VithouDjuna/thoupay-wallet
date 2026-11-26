@@ -12,8 +12,6 @@ spring:
     locations:
       - db/migration
     clean-disabled: true
-    enabled: true
-    default-schema: flyway
 management:
   endpoints:
     web:

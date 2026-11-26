@@ -3,27 +3,18 @@ package io.github.vithoudjuna.backend;
 import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springdoc.core.configuration.SpringDocConfiguration;
-import org.springdoc.core.properties.SpringDocConfigProperties;
-import org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-@WebMvcTest
-@ImportAutoConfiguration({
-        SpringDocConfiguration.class,
-        SpringDocWebMvcConfiguration.class,
-        SpringDocConfigProperties.class
-})
-public class ApiEndpointTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class ApiEndpointTest {
     @Autowired
     MockMvc mockMvc;
-
 
     @Test
     @DisplayName("GET /v3/api-docs → assert status 200, the content type is JSON, and the body field openapi starts with 3.")
@@ -40,6 +31,7 @@ public class ApiEndpointTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/does-not-exist"))
                 .andExpect(MockMvcResultMatchers.status().is(404))
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(404))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").exists());
     }
 }

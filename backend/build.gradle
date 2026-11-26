@@ -20,6 +20,7 @@ repositories {
 
 tasks.named('test') {
     maxHeapSize = '512m'
+    useJUnitPlatform()
 }
 tasks.named('bootRun') {
     jvmArgs = ['-Xmx512m']
@@ -52,10 +53,6 @@ dependencies {
 
     // Spring Doc
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }
 
 dependencyManagement {

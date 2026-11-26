@@ -1,1 +1,1 @@
-create schema pay_wallet
+create schema pay_wallet;
