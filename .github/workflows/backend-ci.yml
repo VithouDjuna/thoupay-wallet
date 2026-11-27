@@ -32,7 +32,8 @@ jobs:
         with:
           filters: |
             backend:
-              - '/**'
+              - 'backend/**'
+              - '.github/workflows/backend-ci.yml'
 
       - name: Setup jdk 21
         id: setup-jdk
