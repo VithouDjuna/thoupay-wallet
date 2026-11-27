@@ -6,7 +6,7 @@ spring:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   flyway:
     validate-migration-naming: true
     locations:
