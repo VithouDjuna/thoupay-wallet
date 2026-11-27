@@ -20,8 +20,8 @@ There is **no wallet business logic** in this story. If you catch yourself writi
 ## Sub-tickets (do them in this order)
 | # | Sub-ticket | Depends on | Estimate | Target done | Status |
 |---|---|---|---|---|---|
-| [WAL-0.1](WAL-0.1-backend-skeleton/ticket.md) | Backend skeleton + module boundaries | – | 4 h | Thu 11-26 | 🟡 PR #1 in review |
-| [WAL-0.2](WAL-0.2-ci-pipeline/ticket.md) | CI pipeline (GitHub Actions) | 0.1 | 2 h | Fri 11-27 | ⚪ To do |
+| [WAL-0.1](WAL-0.1-backend-skeleton/ticket.md) | Backend skeleton + module boundaries | – | 4 h | Thu 11-26 | ✅ Merged 11-26 (`683dea5`); red-main fix PR #2 approved 11-26 |
+| [WAL-0.2](WAL-0.2-ci-pipeline/ticket.md) | CI pipeline (GitHub Actions) | 0.1 | 2 h | Fri 11-27 | 🟡 In progress |
 | [WAL-0.3](WAL-0.3-compose-core/ticket.md) | Docker Compose: `core` profile | 0.1 | 4 h | Sat 11-28 | ⚪ To do |
 | [WAL-0.4](WAL-0.4-vault-secrets-health/ticket.md) | Vault secrets + health groups | 0.3 | 5 h | Sun 11-29 | ⚪ To do |
 | [WAL-0.5](WAL-0.5-keycloak-auth/ticket.md) | Keycloak realm + JWT auth + `/api/v1/me` | 0.3 | 6 h | Tue 12-01 | ⚪ To do |
@@ -31,10 +31,19 @@ There is **no wallet business logic** in this story. If you catch yourself writi
 Sun 12-06 is a buffer day for the end-to-end check below. I also integrate the frontend that day.
 
 ## How each sub-ticket flows
-1. You implement it on its own branch, `feature/WAL-0.<n>-<slug>`, and open one PR.
-2. The PR description has a **Decisions** section: one short answer per "Edge cases" question in the sub-ticket, plus at least one risk.
-3. I review decisions and code together in `review.md` in the sub-ticket folder. You fix, then squash-merge.
-4. You update the status in the table above.
+Every step has an output. Don't skip a step, and don't start the next one before the last one is ✅ (D31).
+
+| # | Step | Who | Output | Done when |
+|---|---|---|---|---|
+| 1 | Read the ticket + **`prep.md`** (learn what each design question means, run the small experiments) | You (I write `prep.md`) | Notes + experiment evidence, questions in `discussion.md` | You can explain every design question in your own words |
+| 2 | **Design** (30–45 min timebox) | You | `design.md` filled in, committed on `feature/WAL-0.<n>-<slug>` | You tell me "design ready" |
+| 3 | Design review | Me | "Design review" section in `review.md` | ✅ Approved |
+| 4 | Implement + self-check | You | Code + tests, **draft** PR with the self-check block (see `docs/feedback/WAL-0.1-retro.md`) | Build green in a clean shell, proof pasted for each AC |
+| 5 | Code review | Me | "Code review" section in `review.md` | ✅ Approved |
+| 6 | Frontend integration (only when the ticket has an API for the UI) | Me | `frontend.md` | API issues reported or none |
+| 7 | Merge + close | You | Squash-merge, runbook note, status updated in the table above | DoD all ticked |
+
+If the code has to differ from the approved design, update `design.md` in the same PR and say why in one line.
 
 One sub-ticket = one branch = one PR. Don't mix sub-tickets in one PR.
 

@@ -28,3 +28,19 @@ Thumbs.db
 # Heap dumps / profiler output (incident drills)
 *.hprof
 *.jfr
+/docs/learning/api-contract-tests.md
+/docs/learning/ci-basics.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.2-ci-pipeline/design.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.3-compose-core/design.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.4-vault-secrets-health/design.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.5-keycloak-auth/design.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.6-logging-elk/design.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.7-metrics-grafana/design.md
+/docs/backlog/design-example.md
+/docs/learning/github-token.md
+/docs/glossary.md
+/docs/learning/jvm-heap-sizing.md
+/docs/learning/jvm-memory-basics.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.2-ci-pipeline/prep.md
+/docs/backlog/E0-platform/WAL-0-platform-skeleton/WAL-0.2-ci-pipeline/review.md
+/docs/feedback/WAL-0.1-retro.md

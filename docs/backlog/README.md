@@ -5,7 +5,9 @@ One folder per epic, one sub-folder per ticket. Each ticket folder holds:
 | File | Written by | Content |
 |---|---|---|
 | `ticket.md` | PO (Claude) | User story, acceptance criteria, edge cases, NFRs, DoD |
-| `review.md` | Tech lead (Claude) | Code review as a short checklist: Must fix / Should fix / Also missing / Nits, one line each |
+| `prep.md` | Tech lead (Claude) | Read **before** `design.md`: what each design question means in plain words, the knowledge you need, where to learn it, a small experiment, and "you're ready when…" checks. It explains the questions, never the answers |
+| `design.md` | Developer | Written **before code**: edge-case answers (choice + number + trade-off + failure), other decisions, how each AC will be proved, risks. Claude creates the empty template with the ticket |
+| `review.md` | Tech lead (Claude) | Design review first, then code review, as a short checklist: Must fix / Should fix / Also missing / Nits, one line each |
 | `frontend.md` | Frontend (Claude) | Frontend integration for this ticket: what changed, why, API issues found |
 
 **Big stories are split into sub-tickets.** The story folder keeps only `ticket.md` (goal, sub-ticket table,
@@ -17,13 +19,14 @@ E0-platform/
     ├── ticket.md                    ← story overview + sub-ticket status table
     ├── WAL-0.1-backend-skeleton/
     │   ├── ticket.md
+    │   ├── design.md
     │   └── review.md
     └── WAL-0.2-ci-pipeline/ ...
 ```
 
 One sub-ticket = one branch (`feature/WAL-0.1-backend-skeleton`) = one PR.
 
-There is no separate design step (D30). Each ticket ends with "Edge cases" questions; answer them in a **Decisions** section of the PR description.
+**The design step is back (D31, replaces D30):** ticket → `design.md` → design review ✅ → code + draft PR → code review ✅ → frontend → merge. The step table is in each story's `ticket.md`.
 
 A frontend change that doesn't belong to a ticket goes in `frontend-changes/FE-<n>-<slug>.md`.
 Cross-cutting docs stay outside the backlog: `docs/decisions/` (ADRs), `docs/runbooks/`, `docs/postmortems/`.

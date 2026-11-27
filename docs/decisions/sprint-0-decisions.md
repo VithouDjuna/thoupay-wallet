@@ -20,7 +20,7 @@
 | D8 | Frontend changes | A branch per change + `frontend.md` in the ticket folder, or `docs/backlog/frontend-changes/FE-<n>-<slug>.md` if not tied to a ticket (what, why, what to learn). The developer merges |
 | D9 | Feedback style | Direct. Claude says so when work looks junior |
 | D10 | Discussion log | `discussion.md` is rewritten after each conversation to show the current state |
-| D10a | Backlog layout | `docs/backlog/E<n>-<epic>/WAL-<n>-<slug>/` with `ticket.md`, `review.md`, `frontend.md` (no `design.md` since D30). A big story is split into sub-ticket folders `WAL-<n>.<m>-<slug>/` with the same files, and one PR each. Index in `docs/backlog/README.md` (2026-11-24) |
+| D10a | Backlog layout | `docs/backlog/E<n>-<epic>/WAL-<n>-<slug>/` with `ticket.md`, `design.md`, `review.md`, `frontend.md` (`design.md` back since D31). A big story is split into sub-ticket folders `WAL-<n>.<m>-<slug>/` with the same files, and one PR each. Index in `docs/backlog/README.md` (2026-11-24) |
 
 ### Time
 | # | Topic | Decision |
@@ -60,9 +60,10 @@
 | D27 | Auth timing | Keycloak + basic roles in Phase 0/1; fine-grained roles, Vault rotation, rate limits in Phase 3 |
 | D28 | Early drills | JVM/DB-level on Docker Compose; pod-level drills after Phase 5 |
 | D29 | Currency | **USD only (Q2 = A, 2026-11-24).** A `currency` column (ISO 4217, always `USD`) is stored wherever money is stored |
-| D30 | Workflow | **No separate design step (2026-11-24, developer's call).** Ticket → implement → PR with a "Decisions" section answering the ticket's edge cases → code review. A wrong decision costs a PR round instead of a design round |
+| D30 | Workflow | *Superseded by D31.* No separate design step (2026-11-24, developer's call). Ticket → implement → PR with a "Decisions" section answering the ticket's edge cases → code review |
+| D31 | Workflow | **The design step is back (2026-11-26, developer's call after the WAL-0.1 retro).** Ticket → `design.md` (30–45 min timebox) → design review ✅ → code + draft PR with self-check → code review ✅ → frontend → merge. Reason: WAL-0.1 took 9 rounds, mostly because decisions and proof were missing, not because of the code. Starts with WAL-0.2 |
 
-### Deferred (required inputs to later PR "Decisions" sections; "I don't know yet" won't pass review)
+### Deferred (required inputs to later `design.md` files; "I don't know yet" won't pass review)
 | Topic | Comes back in |
 |---|---|
 | Balance model (derived vs. stored) and locking | WAL-2 design (ledger), becomes ADR-001 |

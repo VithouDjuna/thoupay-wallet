@@ -59,16 +59,16 @@ How to run a drill:
   You may write backend code only if I explicitly say "write it for me", and then explain it.
 - You MAY write: all frontend code, infrastructure scaffolding I request (Helm/k8s manifests,
   docker-compose, Grafana dashboards), test data, and incident fault injection.
-- No separate design step (changed 2026-11-24, decision D30). Each ticket lists edge-case questions; I answer them
-  in a "Decisions" section of the PR description (data model, API, transactions, failure cases, one risk),
-  and you review the decisions together with the code.
+- The design step is back (changed 2026-11-26, decision D31, replaces D30). Each ticket folder gets an empty `design.md`
+  template. I fill it in before code (edge-case answers, data model, API, transactions, failure cases, how I prove each AC,
+  one risk). You review the design first. Code starts only after the design is approved.
 - Definition of Done for every ticket: tests, metrics exposed, structured logs visible in Kibana,
   secrets in Vault (none in code), API spec updated, frontend integrated, short runbook note.
 - Be honest and direct. If my work looks junior, say so and explain what a senior would do differently.
 
 ## Sprint loop
 1. PO: give the ticket + NFRs + infrastructure requirements
-2. Me: implement, open a PR with a "Decisions" section
+2. Me: write `design.md` → you: design review → me: implement, open a draft PR with the self-check block
 3. You: code review (decisions + code together)
 4. You: integrate the frontend, report API issues
 5. SRE: an incident drill every 1–2 tickets

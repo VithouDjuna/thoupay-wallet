@@ -26,11 +26,12 @@ One command starts PostgreSQL, Keycloak and Vault locally, and the app connects 
 3. Running `docker compose down` and then `up` keeps the data, and `down -v` resets everything. Both are in the runbook.
 4. The `core` profile uses less than 2 GB of memory (`docker stats`).
 
-## Edge cases (answer them in the PR description, under "Decisions")
+## Edge cases (answer them in [design.md](design.md) before you write code)
 - For daily work, does the app run in Compose or on the host from IntelliJ? Choose one and explain what changes
   (hostnames, ports, debugging, drills with `jcmd`).
 - What happens when port 5432 or 8080 is already in use on your machine?
 
 ## Definition of Done
+- [ ] `design.md` approved (✅ in `review.md`) before the first code commit
 - [ ] Acceptance criteria 1–4 pass
 - [ ] Runbook section: how to start, stop and reset, how to see one container's logs, and the usual failures

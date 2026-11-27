@@ -32,13 +32,14 @@ Keycloak issues tokens, the API validates them and maps their roles, and both we
    Use a test-only endpoint or method security. Don't ship a fake admin feature.
 3. The tests run either without a real Keycloak or with a Testcontainers Keycloak. Explain your choice.
 
-## Edge cases (answer them in the PR description, under "Decisions")
+## Edge cases (answer them in [design.md](design.md) before you write code)
 - **Issuer mismatch:** the browser gets tokens from `http://localhost:8080/realms/thoupay`, but a backend in a container
   reaches Keycloak at `http://keycloak:8080`. The `iss` claim must match. How do you avoid getting a 401 with a valid token?
 - **Clock skew:** the containers' clocks and the host's clock can differ when tokens are validated.
 - **CORS:** the web apps run on a different port from the API.
 
 ## Definition of Done
+- [ ] `design.md` approved (✅ in `review.md`) before the first code commit
 - [ ] Acceptance criteria 1–3 pass
 - [ ] OpenAPI spec updated
 - [ ] Frontend integrated: login and `/me` in both apps. I do this and describe it in `frontend.md` in this folder

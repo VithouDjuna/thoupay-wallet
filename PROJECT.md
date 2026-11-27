@@ -12,7 +12,7 @@ Backend and infra: developer. Frontend: Claude.
 | [docs/roadmap.md](docs/roadmap.md) | Phases, incident drill list, portfolio deliverables |
 | [docs/backlog/README.md](docs/backlog/README.md) | Epics and tickets (ticket, review, frontend notes) |
 | [docs/decisions/](docs/decisions/) | Sprint 0 decisions and ADRs |
-| [docs/learning/](docs/learning/) | Learning notes: `wal-0.1-backend-skeleton-explained.md` (ticket walkthrough), `flyway-basics.md`, `testcontainers-basics.md` |
+| [docs/learning/](docs/learning/) | Learning notes: `wal-0.1-backend-skeleton-explained.md` (ticket walkthrough), `flyway-basics.md`, `testcontainers-basics.md`, `ci-basics.md` (WAL-0.2) |
 | [docs/runbooks/](docs/runbooks/), [docs/postmortems/](docs/postmortems/) | Operations notes, incident write-ups |
 | [discussion.md](discussion.md) | Current open discussion with the tech lead |
 
@@ -22,21 +22,28 @@ Backend and infra: developer. Frontend: Claude.
 > Claude reads this at the start of every session. Chat history does not carry over between sessions,
 > so this file and `discussion.md` are the only memory that does.
 
-**Last updated:** 2026-11-24 (Sprint 0 session 3)
+**Last updated:** 2026-11-26 (WAL-0.1 PR #2 approved)
 
 ### Current sprint and ticket
 - **Sprint 0** discussion is closed. All decisions are in `docs/decisions/sprint-0-decisions.md`.
 - **Current ticket:** WAL-0, Platform skeleton (`docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`), given 2026-11-24.
-  - Split into 7 sub-tickets (WAL-0.1 … WAL-0.7), each with its own review and PR (no design step, D30). Story target: Sun 2026-12-06.
-  - **Now:** WAL-0.1 Backend skeleton. PR #1 open, code review round 4 = **request changes** (2026-11-24). Fixes due Thu 2026-11-26. Review: `WAL-0.1-backend-skeleton/review.md`.
-  - Round 4: developer asked for re-review but pushed nothing (PR head still dece471); reviewed the local working tree. 6/10 round-3 items fixed.
-    Main blocker remains in a new form: `PostgresTestConfiguration` is never `@Import`ed and `spring.profiles.active: local` is in the main
-    `application.yml`, so the IT still runs against local `thoupaydb` (verified by running the build). Their pasted "T5" error was actually
-    "port 5432 refused", which proves it.
+  - Split into 7 sub-tickets (WAL-0.1 … WAL-0.7), each with its own design, review and PR (design step back since D31, 2026-11-26). Story target: Sun 2026-12-06.
+  - **Now:** WAL-0.2 CI pipeline (given 2026-11-26). **Design ✅ approved 2026-11-26** (round 1, done by chat discussion: 6 questions one at a time, Claude wrote the answers into `design.md`). Next: developer implements on `feature/WAL-0.2-ci-pipeline`. Lesson: written design templates overwhelmed the developer (frustrated after the first Q1 attempt); one small question at a time, explaining each concept **before** asking, worked. They needed secrets and the AC 1/AC 2 conflict explained from zero before they could decide. WAL-0.1 merged as `683dea5` after 8 rounds, but merged with the Testcontainers blocker unfixed (tests silently used the local DB via `SPRING_DATASOURCE_*` env vars; main red without them). Fix landed as PR #2 (`@FullContextTest` meta-annotation imports `PostgresTestConfiguration`); approved 2026-11-26 round 9, verified green with no env vars on a Testcontainers DB. Follow-ups carried: heap + Flyway-lock Decisions and schema layout → WAL-1; runbook, ADR-000, AC 7, T5 → WAL-0.7. New merge gate: green build + ACs + short Decisions; everything else = follow-ups.
+  - Round 5 (head a58315e): container blocker fixed and verified (`@IntegrationTest` meta-annotation imports the config; Flyway hits the
+    Testcontainers DB). But the build is red, 2/2 tests failing (verified by running it): no V1 migration exists (never committed, deleted
+    locally after the round-4 "V1 may not need CREATE SCHEMA" hint), and the AC 2 boundary violation was committed instead of reverted.
+    `profiles.active: local` still in main config; `.gitignore` uses `!application-local.yml` (un-ignores it).
   - Learning notes written for the developer (who is new to Flyway and Testcontainers): `docs/learning/`. They learn best from
     friendly, analogy-based, step-by-step explanations with hands-on exercises.
   - Status: waiting for fixes pushed to PR #1. Sub-ticket status table: `docs/backlog/E0-platform/WAL-0-platform-skeleton/ticket.md`.
 - **Next:** WAL-1 (wallet creation + balance), then WAL-2 (ledger). Milestone 1 = Phases 0–2 by 2026-12-31.
+
+### Deliberately deferred by the developer (2026-11-26)
+- WAL-0.1 open items (heap / `-Xmx` sizing with numbers, Flyway lock behaviour, schema layout, runbook, ADR-000, AC 7, T5) are left open **on purpose**.
+  The developer wants to understand them by meeting the real problem first, not by filling in a Decision up front.
+- Plan: teach them through **incident drills**, not review comments. First candidate: "pods OOMKilled (exit 137), JVM heap vs container limit"
+  once the app runs in k8s (after WAL-0.3). After each drill, the developer writes the real Decision (with numbers) from what they saw.
+- Do not re-raise these as review blockers. Schema layout is the exception: it must be chosen in WAL-1, because WAL-1 creates the first tables.
 
 ### Open questions
 - None.
@@ -65,15 +72,21 @@ Backend and infra: developer. Frontend: Claude.
 - Round 4: fixes the checklist items literally (file created, item ticked) without verifying the outcome (container never started;
   T5 evidence misread). Pattern: "done" = "changed", not "proved". Coach: for each fix, say how you verified it.
   Decisions section: describes ("keep the lock enabled", "heap within limits") instead of deciding (numbers, consequences).
+- Round 5: asked for review on a red build (never ran `./gradlew build` before "ready"). Third round in a row of "changed, not proved".
+  Misread a hint as an instruction to delete V1. Decisions section unchanged between rounds. Coach: build green locally is the entry
+  ticket for a review; read review hints as questions to verify, not commands.
+
+- 2026-11-26 retro written: `docs/feedback/WAL-0.1-retro.md` (top 3: changed ≠ proved, cutting thinking under pressure,
+  reading hints as commands). The developer then asked to bring the design step back (D31): `design.md` templates created for WAL-0.2…0.7. WAL-0.2 goal: approved in ≤ 2 rounds, PR body uses the self-check block. Check this in the WAL-0.2 review.
 
 ### Known risks
 - WSL2 has no `.wslconfig`, so it gets about 8 GB. The full stack may get OOM-killed (WAL-0 caps it at 6 GB).
 
 ### Open review comments
-- WAL-0.1 PR #1, round 4 (2026-11-24): request changes. 5 blockers (shared container config not imported, `profiles.active: local` in main
-  config, `application-local.yml` with creds committed, T5 evidence wrong, nothing pushed), majors (unused `thoupay` schema / F6 undecided,
-  weak count(*) assertion, `Refs: WAL-1`, vague Decisions, AC 2 and AC 7 proofs missing), minors (AC 3/4 tests, ADR-000, runbook, commits).
-  Details in `review.md`.
+- WAL-0.1 PR #2, round 9 (2026-11-26): ✅ approved, no blockers. Before merge: fill the empty PR body (Refs + 1 Decision + pasted proof)
+  and squash as `fix(WAL-0.1): …`. Follow-ups for WAL-0.2: CI must run without `SPRING_DATASOURCE_*` (guard against regression);
+  use the next ticket's branch for fixes. Details in `review.md`.
+- Pattern still open: PR body empty again, with no proof pasted (the "changed, not proved" habit). The code itself was right first try this round.
 
 ### Completed incidents
 - None yet.
