@@ -2,10 +2,10 @@ name: wallet_backend
 on:
   pull_request:
     branches:
-      - main
+      - play-ci
   push:
     branches:
-      - main
+      - play-ci
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -39,7 +39,7 @@ jobs:
         id: setup-jdk
         uses: actions/setup-java@v6.3.0
         with:
-          distribution: 'invalid'
+          distribution: 'temurin'
           java-version: '21'
 
       - name: Setup Gradle (with caching)
