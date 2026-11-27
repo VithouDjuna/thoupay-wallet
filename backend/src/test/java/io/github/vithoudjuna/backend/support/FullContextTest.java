@@ -1,4 +1,4 @@
-package io.github.vithoudjuna.backend.annotation;
+package io.github.vithoudjuna.backend.support;
 
 import io.github.vithoudjuna.backend.config.PostgresTestConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +11,8 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Retention(RUNTIME) @Target(TYPE)
+@Retention(RUNTIME)
+@Target(TYPE)
 @SpringBootTest
 @Import(PostgresTestConfiguration.class)
 @AutoConfigureMockMvc

@@ -1,6 +1,6 @@
 package io.github.vithoudjuna.backend;
 
-import io.github.vithoudjuna.backend.annotation.FullContextTest;
+import io.github.vithoudjuna.backend.support.FullContextTest;
 import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
