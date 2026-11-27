@@ -39,7 +39,7 @@ jobs:
         id: setup-jdk
         uses: actions/setup-java@v6.3.0
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '21'
 
       - name: Setup Gradle (with caching)
