@@ -33,13 +33,12 @@ jobs:
           filters: |
             backend:
               - '/**'
-              - '.github/workflows/backend-ci.yml'
 
       - name: Setup jdk 21
         id: setup-jdk
         uses: actions/setup-java@v6.3.0
         with:
-          distribution: 'temurin'
+          distribution: 'invalid'
           java-version: '21'
 
       - name: Setup Gradle (with caching)
@@ -61,6 +60,7 @@ jobs:
         with:
           name: test-reports
           path:  |
-            backend/**/build/reports/tests1/
-            backend/**/build/test-results1/
+            backend/**/build/reports/tests/
+            backend/**/build/test-results/
           retention-days: 7
+          if-no-files-found: 'warn'
