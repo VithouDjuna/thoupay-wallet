@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -13,21 +14,27 @@ concurrency:
 permissions:
   contents: read
 
-jobs:
-  build:
-    name: build-and-test
-    runs-on: ubuntu-24.04
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./backend
-    steps:
-      - name: Checkout Repository
-        id: checkout
-        uses: actions/checkout@v7.0.1
+defaults:
+  run:
+    shell: bash
 
-      - name: Filter backend file changes
-        id: filter-backend
+jobs:
+  setup:
+    name: setup
+    runs-on: &runner ubuntu-latest
+    steps:
+      - &checkout
+        uses: actions/checkout@v7.0.0
+
+  changes:
+    runs-on: *runner
+    name: filter-changes
+    outputs:
+      backend: ${{steps.filter-backend.outputs}}
+
+    steps:
+      - name: filter file changes under directory backend
+        id: : filter-file-changes
         uses: dorny/paths-filter@v4
         with:
           filters: |
@@ -35,11 +42,19 @@ jobs:
               - 'backend/**'
               - '.github/workflows/backend-ci.yml'
 
+  backend:
+    needs: changes
+    name: backend
+    runs-on: *runner
+    if: needs.changes.outputs.backend == 'true'
+    steps:
+      - *checkout
+
       - name: Setup jdk 21
         id: setup-jdk
         uses: actions/setup-java@v6.3.0
         with:
-          distribution: 'test'
+          distribution: 'temurin'
           java-version: '21'
 
       - name: Setup Gradle (with caching)
@@ -60,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path:  |
+          path: |
             backend/**/build/reports/tests/
             backend/**/build/test-results/
           retention-days: 7
