@@ -80,3 +80,8 @@ jobs:
             backend/**/build/test-results/
           retention-days: 7
           if-no-files-found: 'warn'
+
+  verify:
+    needs: [ setup, changes, backend  ]
+    runs-on: *runner
+    if: always()
