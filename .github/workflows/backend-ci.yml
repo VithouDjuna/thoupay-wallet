@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - feature/WAL-0.2-ci-pipeline
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
