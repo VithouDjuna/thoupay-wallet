@@ -47,6 +47,9 @@ jobs:
     name: backend
     runs-on: *runner
     if: needs.changes.outputs.backend == 'true'
+    defaults:
+      run:
+        working-directory: /backend
     steps:
       - *checkout
 
