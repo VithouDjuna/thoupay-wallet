@@ -1,0 +1,92 @@
+name: wallet_backend
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{github.event_name == 'pull_request'}}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  changes:
+    runs-on: &runner ubuntu-24.04
+    name: changes
+    outputs:
+      backend: ${{steps.filter-file-changes.outputs.backend}}
+
+    steps:
+      - &checkout
+        uses: actions/checkout@v7.0.0
+      - name: filter file changes under directory backend
+        id: filter-file-changes
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+              - '.github/workflows/backend-ci.yml'
+
+  backend:
+    needs: changes
+    name: backend
+    runs-on: *runner
+    if: needs.changes.outputs.backend == 'true'
+    defaults:
+      run:
+        working-directory: ./backend
+    timeout-minutes: 15
+    steps:
+      - *checkout
+
+      - name: Setup jdk 21
+        id: setup-jdk
+        uses: actions/setup-java@v6.3.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle (with caching)
+        id: setup-gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make Gradlew Executable
+        id: grant-permission
+        run: chmod +x ./gradlew
+
+      - name: Build and run tests
+        id: build-gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Upload Test reports
+        id: test-report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            backend/**/build/reports/tests/
+            backend/**/build/test-results/
+          retention-days: 7
+          if-no-files-found: 'warn'
+
+  verify:
+    name: verify
+    needs: [ changes, backend  ]
+    runs-on: *runner
+    if: always()
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs:  ${{ toJSON(needs) }}
+          allowed-skips: backend
