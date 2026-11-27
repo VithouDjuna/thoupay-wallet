@@ -30,7 +30,7 @@ jobs:
     runs-on: *runner
     name: filter-changes
     outputs:
-      backend: ${{steps.filter-backend.outputs}}
+      backend: ${{steps.filter-file-changes.outputs.backend}}
 
     steps:
       - name: filter file changes under directory backend
