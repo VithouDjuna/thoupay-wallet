@@ -82,6 +82,7 @@ jobs:
           if-no-files-found: 'warn'
 
   verify:
+    name: Ensure all jobs is success
     needs: [ setup, changes, backend  ]
     runs-on: *runner
     if: always()
