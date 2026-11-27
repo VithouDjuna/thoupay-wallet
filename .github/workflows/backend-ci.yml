@@ -9,7 +9,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{github.event_name == 'pull_request'}}
 
 permissions:
   contents: read
@@ -19,21 +19,15 @@ defaults:
     shell: bash
 
 jobs:
-  setup:
-    name: setup
-    runs-on: &runner ubuntu-latest
-    steps:
-      - &checkout
-        uses: actions/checkout@v7.0.0
-
   changes:
-    runs-on: *runner
+    runs-on: &runner ubuntu-24.04
     name: changes
     outputs:
       backend: ${{steps.filter-file-changes.outputs.backend}}
 
     steps:
-      - *checkout
+      - &checkout
+        uses: actions/checkout@v7.0.0
       - name: filter file changes under directory backend
         id: filter-file-changes
         uses: dorny/paths-filter@v4
@@ -51,6 +45,7 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+    timeout-minutes: 15
     steps:
       - *checkout
 
@@ -75,7 +70,7 @@ jobs:
 
       - name: Upload Test reports
         id: test-report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
@@ -87,7 +82,7 @@ jobs:
 
   verify:
     name: verify
-    needs: [ setup, changes, backend  ]
+    needs: [ changes, backend  ]
     runs-on: *runner
     if: always()
     steps:
