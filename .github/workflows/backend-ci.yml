@@ -2,10 +2,10 @@ name: wallet_backend
 on:
   pull_request:
     branches:
-      - play-ci
+      - main
   push:
     branches:
-      - play-ci
+      - main
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
