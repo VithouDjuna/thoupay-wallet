@@ -3,13 +3,9 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend-ci.yml'
   push:
     branches:
       - main
-      - feature/WAL-0.2-ci-pipeline
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -50,5 +46,5 @@ jobs:
         with:
           name: test-reports
           path:  |
-            backend/**/build/reports/tests/
-            backend/**/build/test-results/
+            backend/**/build/reports/tests1/
+            backend/**/build/test-results1/
