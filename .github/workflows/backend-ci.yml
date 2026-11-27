@@ -86,3 +86,8 @@ jobs:
     needs: [ setup, changes, backend  ]
     runs-on: *runner
     if: always()
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs:  ${{ toJSON(needs) }}
+          allowed-skips: backend
