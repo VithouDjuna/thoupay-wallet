@@ -49,7 +49,7 @@ jobs:
     if: needs.changes.outputs.backend == 'true'
     defaults:
       run:
-        working-directory: /backend
+        working-directory: ./backend
     steps:
       - *checkout
 
