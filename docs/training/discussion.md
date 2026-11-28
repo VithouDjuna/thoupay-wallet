@@ -10,8 +10,8 @@
   - ✅ README with CI badge (new, short, code-only front page).
   - ✅ Repo tidy (2026-11-28): training files moved to `docs/training/` (PROJECT.md, discussion.md, explain_rules.md).
     Rule in CONTRIBUTING.md: docs go in the same branch/PR as the ticket's code, no docs-only PRs.
-  - ⏳ Next: runbook section "CI is red but works on my laptop" + branch protection notes in `docs/runbooks/local-platform.md`.
-  - ⏳ `.gitignore`: remove the duplicate lines.
+  - ✅ Runbook `docs/runbooks/local-platform.md` (written by Claude on request): "CI is red but works on my laptop" + branch protection.
+  - ⏳ Next: `.gitignore`: remove the duplicate lines.
   - ⏳ Commit, push, open PR with AC 3 proof, green build, squash merge.
 - Then: WAL-0.3 (compose core), starting with prep.md + design chat.
 
