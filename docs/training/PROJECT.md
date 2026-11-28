@@ -7,13 +7,13 @@ Backend and infra: developer. Frontend: Claude.
 ## Where things are
 | Document | Content |
 |---|---|
-| [docs/product/requirements.md](docs/product/requirements.md) | Overview, roles, features, business rules, NFRs, out of scope |
-| [docs/architecture/tech-stack.md](docs/architecture/tech-stack.md) | Fixed tech stack, module layout |
-| [docs/roadmap.md](docs/roadmap.md) | Phases, incident drill list, portfolio deliverables |
-| [docs/backlog/README.md](docs/backlog/README.md) | Epics and tickets (ticket, review, frontend notes) |
-| [docs/decisions/](docs/decisions/) | Sprint 0 decisions and ADRs |
-| [docs/learning/](docs/learning/) | Learning notes: `wal-0.1-backend-skeleton-explained.md` (ticket walkthrough), `flyway-basics.md`, `testcontainers-basics.md`, `ci-basics.md` (WAL-0.2) |
-| [docs/runbooks/](docs/runbooks/), [docs/postmortems/](docs/postmortems/) | Operations notes, incident write-ups |
+| [docs/product/requirements.md](../product/requirements.md) | Overview, roles, features, business rules, NFRs, out of scope |
+| [docs/architecture/tech-stack.md](../architecture/tech-stack.md) | Fixed tech stack, module layout |
+| [docs/roadmap.md](../roadmap.md) | Phases, incident drill list, portfolio deliverables |
+| [docs/backlog/README.md](../backlog/README.md) | Epics and tickets (ticket, review, frontend notes) |
+| [docs/decisions/](../decisions/) | Sprint 0 decisions and ADRs |
+| [docs/learning/](../learning/) | Learning notes: `wal-0.1-backend-skeleton-explained.md` (ticket walkthrough), `flyway-basics.md`, `testcontainers-basics.md`, `ci-basics.md` (WAL-0.2) |
+| [docs/runbooks/](../runbooks/), [docs/postmortems/](../postmortems/) | Operations notes, incident write-ups |
 | [discussion.md](discussion.md) | Current open discussion with the tech lead |
 
 ---
@@ -22,7 +22,7 @@ Backend and infra: developer. Frontend: Claude.
 > Claude reads this at the start of every session. Chat history does not carry over between sessions,
 > so this file and `discussion.md` are the only memory that does.
 
-**Last updated:** 2026-11-26 (WAL-0.1 PR #2 approved)
+**Last updated:** 2026-11-27 (WAL-0.2 PR #10: AC 1 ✅, AC 2 code ✅ and waiting for merge + frontend-only PR proof, AC 3 not started. Details in `discussion.md`)
 
 ### Current sprint and ticket
 - **Sprint 0** discussion is closed. All decisions are in `docs/decisions/sprint-0-decisions.md`.
